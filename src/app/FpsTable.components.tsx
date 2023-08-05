@@ -115,7 +115,7 @@ export const FpsTable = styled.table`
 
   ${Th},
   ${Td} {
-    padding: 0.4rem 0.5rem;
+    padding: 0.25rem 0.5rem;
   }
 
   td,
