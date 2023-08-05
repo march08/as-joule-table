@@ -11,9 +11,10 @@ export const Th = styled.th<ThProps>`
   position: sticky;
   top: 0;
   z-index: 5000;
-  font-size: 0.75rem;
-  height: 2rem;
   transition: 0.1s all;
+  border-bottom: 2px solid var(--border-color);
+  font-size: 0.75rem;
+  border-radius: 2px;
   &:first-child {
     z-index: 5050;
     left: 0;
@@ -24,10 +25,6 @@ export const Th = styled.th<ThProps>`
       background: var(--primary);
       color: white;
     `}
-`;
-
-export const ThLower = styled(Th)`
-  top: calc(2rem + 1px);
 `;
 
 type TdProps = {
@@ -60,10 +57,14 @@ export const Td = styled.td<TdProps>`
   font-size: 0.75rem;
   border: 1px solid var(--border-color);
   transition: 0.1s all;
+  border-radius: 2px;
+  background: var(--bg-secondary);
 
   &:first-child {
-    background: var(--bg-secondary);
+    background: var(--bg-tertiary);
     font-weight: 600;
+    color: var(--text-primary);
+    border-color: var(--bg-tertiary);
   }
 
   ${(p) =>
@@ -74,6 +75,7 @@ export const Td = styled.td<TdProps>`
           font-weight: 500;
           &:first-child {
             background: var(--primary);
+            color: white;
           }
           &:not(:first-child) {
             outline: 2px solid var(--primary);
@@ -84,7 +86,7 @@ export const Td = styled.td<TdProps>`
         `
       : p.$semiActive
       ? css`
-          background: var(--bg-secondary);
+          background: var(--bg-primary);
           font-weight: 500;
         `
       : null}
@@ -94,7 +96,6 @@ export const Td = styled.td<TdProps>`
 
 export const FpsTableContainer = styled.div`
   width: 100%;
-  height: 100%;
   overflow-y: auto;
   overflow-x: auto;
 
@@ -108,12 +109,13 @@ export const FpsTable = styled.table`
   margin: 0 auto;
   background: var(--bg-primary);
   border-spacing: 0;
+  background: var(--border-color);
 
   font-family: ${fontRobotoMono.style.fontFamily};
 
   ${Th},
   ${Td} {
-    padding: 0.4rem 0.75rem;
+    padding: 0.4rem 0.5rem;
   }
 
   td,
@@ -124,12 +126,10 @@ export const FpsTable = styled.table`
     position: sticky;
     left: 0;
     z-index: 100;
-    text-align: right;
   }
 
   th:first-child,
   td:first-child {
-    width: 150px;
-    text-align: right;
+    text-align: left;
   }
 `;

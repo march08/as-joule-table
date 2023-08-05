@@ -12,12 +12,15 @@ export const Button = styled.button<{ $primary?: boolean }>`
   border: none;
   outline: none;
   padding: 0 0.5rem;
-  line-height: 1.25rem;
-  font-size: 0.875rem;
+  height: 1.25rem;
+  font-size: 0.75rem;
   background: var(--bg-secondary);
   border: 1px solid var(--border-color);
   color: var(--text-primary);
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   &:hover,
   &:active,
