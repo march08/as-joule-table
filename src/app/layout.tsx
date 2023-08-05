@@ -1,5 +1,4 @@
 import { ClientCookiesProvider } from "@/cookies/ClientCookiesProvider";
-import { Analytics } from "@vercel/analytics/react";
 import { fontInter } from "lib/fonts";
 import StyledComponentsRegistry from "lib/registry";
 import type { Metadata } from "next";
@@ -38,7 +37,6 @@ export default function RootLayout({
         <ClientCookiesProvider value={cookies().getAll()}>
           <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
         </ClientCookiesProvider>
-        <Analytics />
       </body>
     </html>
   );
