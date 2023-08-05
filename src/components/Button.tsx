@@ -13,7 +13,7 @@ export const Button = styled.button<{ $primary?: boolean }>`
   outline: none;
   padding: 0 0.5rem;
   height: 1.25rem;
-  font-size: 0.75rem;
+  font-size: 0.875rem;
   background: var(--bg-secondary);
   border: 1px solid var(--border-color);
   color: var(--text-primary);

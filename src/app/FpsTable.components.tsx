@@ -13,7 +13,7 @@ export const Th = styled.th<ThProps>`
   z-index: 5000;
   transition: 0.1s all;
   border-bottom: 2px solid var(--border-color);
-  font-size: 0.75rem;
+  font-size: 0.875rem;
   border-radius: 2px;
   &:first-child {
     z-index: 5050;
@@ -54,7 +54,7 @@ const cssOverLimit = css<TdProps>`
 
 export const Td = styled.td<TdProps>`
   color: var(--text-secondary);
-  font-size: 0.75rem;
+  font-size: 0.875rem;
   border: 1px solid var(--border-color);
   transition: 0.1s all;
   border-radius: 2px;
