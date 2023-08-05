@@ -1,0 +1,34 @@
+{
+  // "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true,
+    "source.fixAll.eslint": true,
+    "source.formatDocument": true,
+    "source.addMissingImports": true,
+    "source.organizeImports": true
+  },
+  "editor.tabSize": 2,
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "gitmoji-linked-commits.descriptionTaskPrefix": "TAL-",
+  "gitmoji-linked-commits.branchTaskPattern": "[a-zA-Z]+/tal-(\\d+)-.*",
+  "gitlens.autolinks": [
+    {
+      "prefix": "TAL-",
+      "url": "https://linear.app/talkbase/issue/TAL-<num>"
+    }
+  ],
+  "gitlens.views.commitDetails.autolinks.enhanced": false,
+  "gitlens.currentLine.enabled": true
+}
