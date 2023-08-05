@@ -1,10 +1,11 @@
 import { ClientCookiesProvider } from "@/cookies/ClientCookiesProvider";
+import { Analytics } from "@vercel/analytics/react";
 import { fontInter } from "lib/fonts";
 import StyledComponentsRegistry from "lib/registry";
 import type { Metadata } from "next";
-import "./globals.css";
-
 import { cookies } from "next/headers";
+import Script from "next/script";
+import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -18,10 +19,26 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <Script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-PPEENTFQE6"
+        />
+        <Script id="google-analytics">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-PPEENTFQE6');
+          `}
+        </Script>
+      </head>
       <body className={fontInter.className}>
         <ClientCookiesProvider value={cookies().getAll()}>
           <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
         </ClientCookiesProvider>
+        <Analytics />
       </body>
     </html>
   );
