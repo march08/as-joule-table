@@ -20,7 +20,7 @@ const Header = styled.div`
 `;
 
 const HeaderContent = styled.div`
-  height: 3rem;
+  min-height: 3rem;
   padding: 0.5rem;
   display: flex;
   justify-content: space-between;
@@ -40,6 +40,29 @@ const getJoule = (weightInGrams: number, speedInMs: number) => {
 };
 
 const fpsToMs = (fps: number) => fps / 3.2808398950131;
+
+const TdHoverDisplayBox = styled.div`
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translate(-50%, -5px);
+  pointer-events: none;
+  opacity: 0;
+  transition: 0.1s all;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  color: var(--text-primary);
+  padding: 0.5rem 0.75rem;
+  z-index: 10000;
+`;
+const TdHover = styled(Td)`
+  &:hover {
+    ${TdHoverDisplayBox} {
+      opacity: 1;
+    }
+  }
+`;
 
 export const FpsJouleTable = () => {
   const [velocityUnitState, setVelocityUnitState] = useSearchParamState(
@@ -71,7 +94,7 @@ export const FpsJouleTable = () => {
     null,
   );
 
-  const maxJouleLimit = Number(maxJouleLimitState);
+  const maxJouleLimitFormatted = Number(maxJouleLimitState);
 
   return (
     <Container>
@@ -81,14 +104,15 @@ export const FpsJouleTable = () => {
             <strong>FPS Joule chart (Airsoft BBs)</strong>
           </div>
           <span style={{ textAlign: "right" }}>
-            <ItemsContainer $align="center">
+            <ItemsContainer $align="center" $hAlign="flex-end">
               Target energy (Joule):{" "}
               <input
                 type="number"
+                inputMode="decimal"
                 min={0.5}
                 max={15}
                 step={0.1}
-                value={maxJouleLimit}
+                value={maxJouleLimitState}
                 style={{
                   lineHeight: "1.25rem",
                   borderRadius: 4,
@@ -97,9 +121,10 @@ export const FpsJouleTable = () => {
                   padding: "0 0 0 .5rem",
                   height: "1.25rem",
                 }}
-                onChange={(e) =>
+                onBlur={(e) =>
                   setMaxJouleLimitState(Number(e.target.value).toFixed(2))
                 }
+                onChange={(e) => setMaxJouleLimitState(e.target.value)}
               />
               {velocityUnitState !== "fps" ? (
                 <Button
@@ -146,42 +171,56 @@ export const FpsJouleTable = () => {
               setActiveVelocity(null);
             }}
           >
-            {rows.map((row) => (
-              <tr key={row.value}>
-                <Td $active={row.value === activeVelocity}>
-                  {row.label}{" "}
-                  <span style={{ opacity: 0.4 }}>
+            {rows.map((row, index) => {
+              const rowChild = (
+                <ItemsContainer $noWrap>
+                  <span>{row.label}</span>
+                  <span style={{ opacity: 0.6 }}>
                     {velocityUnitState === "fps" ? "fps" : "m/s"}
                   </span>
-                </Td>
+                </ItemsContainer>
+              );
 
-                {bbs.map((bb) => {
-                  const energy = Number(getJoule(bb, row.value).toFixed(2));
-                  return (
-                    <Td
-                      key={bb}
-                      onMouseOver={() => {
-                        setActiveCol(bb);
-                        setActiveVelocity(row.value);
-                      }}
-                      $semiActive={
-                        activeVelocity && activeCol
-                          ? (row.value === activeVelocity && bb < activeCol) ||
-                            (bb === activeCol && row.value < activeVelocity)
-                          : undefined
-                      }
-                      $active={bb === activeCol && row.value === activeVelocity}
-                      $isOverLimit={energy > maxJouleLimit}
-                    >
-                      {Intl.NumberFormat(undefined, {
-                        maximumFractionDigits: 2,
-                        minimumFractionDigits: 2,
-                      }).format(energy)}
-                    </Td>
-                  );
-                })}
-              </tr>
-            ))}
+              return (
+                <tr key={row.value}>
+                  <Td $active={row.value === activeVelocity}>{rowChild}</Td>
+
+                  {bbs.map((bb) => {
+                    const energy = Number(getJoule(bb, row.value).toFixed(2));
+                    return (
+                      <TdHover
+                        key={bb}
+                        onMouseOver={() => {
+                          setActiveCol(bb);
+                          setActiveVelocity(row.value);
+                        }}
+                        $semiActive={
+                          activeVelocity && activeCol
+                            ? (row.value === activeVelocity &&
+                                bb < activeCol) ||
+                              (bb === activeCol && row.value < activeVelocity)
+                            : undefined
+                        }
+                        $active={
+                          bb === activeCol && row.value === activeVelocity
+                        }
+                        $isOverLimit={energy > maxJouleLimitFormatted}
+                      >
+                        <TdHoverDisplayBox>
+                          <ItemsContainer $noWrap>
+                            <span>{bb}g</span> – {rowChild}
+                          </ItemsContainer>
+                        </TdHoverDisplayBox>
+                        {Intl.NumberFormat(undefined, {
+                          maximumFractionDigits: 2,
+                          minimumFractionDigits: 2,
+                        }).format(energy)}
+                      </TdHover>
+                    );
+                  })}
+                </tr>
+              );
+            })}
           </tbody>
         </FpsTable>
       </FpsTableContainer>
